@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>TODO APP</title>
 </head>
 <body>
@@ -13,27 +13,19 @@
     </header>
     <main>
         <div class="header">
-            <input type="text" class="todo" placeholder="Type to add an Item" aria-label="Type to add an item">
-            <button class="add">Add</button>
-            <button class="show-completed">comp</button>
-            <button class="show-uncompleted">uncomp</button>
-            <button class="show-all">all</button>
+            <span></span>
+            <input type="text" class="toDO-input" placeholder="TYPE A TASK TO DO">
         </div>
-        <div class="content">
-            <div class="todo-list">
-                <!-- <div class="item completed">
-                    <p>doing something</p>
-                    <span class="check">&check;</span>
-                    <span class="delete">&cross;</span>
-                </div> -->
-            </div>
+        <div class="todo-list"></div>
+        <div class="footer">
+            <span class="counter"></span>
+            <button class="all selected">All</button>
+            <button class="active">Active</button>
+            <button class="completed">Completed</button>
         </div>
     </main>
     <footer>
-        <p>&copy; 2022 TODO APP</p>
-        <p>Code BY <a href="https://github.com/mennaafathy1014">Menna A Fathy</a></p>
+        <p>&copy; 2022 Code By <a href="https://github.com/mennaafathy1014">menna a fathy</a></p>
     </footer>
-        
-    <script src="./scripts/script.js"></script>
 </body>
 </html>

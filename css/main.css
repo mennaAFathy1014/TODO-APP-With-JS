@@ -43,7 +43,7 @@ main{
 }
 .header span::before{
     content:"❯";
-    color: #e4e4e4;
+    color: #E4E4E4;
     position: absolute;
     font-size: 2rem;
     transform: rotateZ(90deg);
@@ -83,7 +83,6 @@ body {
     align-items: center;
     position: relative;
 }
-
 .footer button{
     display: flex;
     justify-content: center;

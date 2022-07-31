@@ -21,6 +21,7 @@ tasks.addEventListener('click',(e)=>{
         let id = e.target.parentElement.getAttribute('data-id');
         completeTask(id);
     }
+
 })
 
 
@@ -35,10 +36,11 @@ input.addEventListener('keydown',function(e){
 
 checkAll.addEventListener('click',function(){
     arrayOfTasks.forEach((task)=>{
-        task.completed = !task.completed;
+        task.completed ? task.completed = false : task.completed = true;
     }
     )
     addDataToLocalStorage(arrayOfTasks);
+    
 
 })
 
@@ -54,6 +56,9 @@ function addTasksToarray(taskText){
     addElementsToPage(arrayOfTasks);
     //add to local storage
     addDataToLocalStorage(arrayOfTasks);
+    //count tasks
+    countTasks(arrayOfTasks);
+
 }
 function addDataToLocalStorage(arrayOfTasks){
     window.localStorage.setItem('tasks',JSON.stringify(arrayOfTasks));
@@ -90,11 +95,13 @@ function addElementsToPage(arrayOfTasks){
         tasks.appendChild(div);
 
     });
+
 }
 //delete task
 function deleteTask(id){
     arrayOfTasks = arrayOfTasks.filter((task)=> task.id != id);
     addDataToLocalStorage(arrayOfTasks);
+    countTasks(arrayOfTasks);
 }
 //complete task
 function completeTask(id){
@@ -105,4 +112,36 @@ function completeTask(id){
     }
     )
     addDataToLocalStorage(arrayOfTasks);
+
 }
+let activeFilter = [];
+let completedFilter = [];
+// let allFilter = arrayOfTasks;
+//filter
+let footerTodo = document.querySelector('.footer');
+
+footerTodo.addEventListener('click',function(e){
+    if(e.target.classList.contains('all')){
+        addElementsToPage(arrayOfTasks);
+    }
+    if(e.target.classList.contains('active')){
+        activeFilter = arrayOfTasks.filter((task)=>!task.completed);
+        addElementsToPage(activeFilter);
+    }
+    if(e.target.classList.contains('completed')){
+        completedFilter = arrayOfTasks.filter((task)=>task.completed);
+        addElementsToPage(completedFilter);
+    }
+})
+let counter = document.querySelector('.counter');
+let clearAll = document.querySelector('.clear');
+clearAll.addEventListener('click',function(){
+    arrayOfTasks = arrayOfTasks.filter((task)=>!task.completed);
+    addDataToLocalStorage(arrayOfTasks);
+    countTasks(arrayOfTasks);
+})
+function countTasks(arrayOfTasks){
+    let count = arrayOfTasks.length;
+    counter.innerHTML = `${count} items left`;
+}
+countTasks(arrayOfTasks);

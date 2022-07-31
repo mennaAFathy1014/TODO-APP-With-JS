@@ -36,12 +36,11 @@ input.addEventListener('keydown',function(e){
 
 checkAll.addEventListener('click',function(){
     arrayOfTasks.forEach((task)=>{
-        task.completed ? task.completed = false : task.completed = true;
+        task.completed ? task.completed = false : task.completed = true;    
     }
     )
     addDataToLocalStorage(arrayOfTasks);
     
-
 })
 
 function addTasksToarray(taskText){
@@ -93,10 +92,16 @@ function addElementsToPage(arrayOfTasks){
         deleteButton.innerHTML = '&times;';
         div.appendChild(deleteButton);
         tasks.appendChild(div);
-
+        div.addEventListener('dblclick',function(e){
+            if(e.target.classList.contains('text')){
+                e.target.contentEditable = true;
+                e.target.focus();
+            }
+        })
     });
 
 }
+
 //delete task
 function deleteTask(id){
     arrayOfTasks = arrayOfTasks.filter((task)=> task.id != id);

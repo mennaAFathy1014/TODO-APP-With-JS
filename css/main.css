@@ -115,7 +115,7 @@ button{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 }
-@media (min-width:59.0625em) {
+@media (max-width:59.0625em) {
     .footer{
         display: flex;
         flex-direction: row;

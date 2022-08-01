@@ -21,24 +21,43 @@ tasks.addEventListener('click',(e)=>{
         let id = e.target.parentElement.getAttribute('data-id');
         completeTask(id);
     }
-
+   
 })
+tasks.addEventListener('dblclick',(e)=>{
+    if(e.target.classList.contains('text')){
+        editText(e.target.parentElement.getAttribute('data-id'),
+        e.target.parentElement.querySelector('.text'));
+    }
+})
+function editText(id,parent){
+    arrayOfTasks.forEach((task)=>{
+        if(task.id == id){
+            parent.contentEditable = true;
+            parent.innerHTML ='';
+            parent.focus();
+            parent.addEventListener('blur',()=>{
+            task.title = parent.innerHTML;
+            addDataToLocalStorage(arrayOfTasks);
+            });
+            
+        }
+    })
+}
 
 
 input.addEventListener('keydown',function(e){
     if(e.keyCode === 13 && input.value !==''){
         let taskText = input.value;
         addTasksToarray(taskText);
-        // addElementsToPage(arrayOfTasks);
+        addElementsToPage(arrayOfTasks);
         input.value = '';
     }
 })
 
 checkAll.addEventListener('click',function(){
     arrayOfTasks.forEach((task)=>{
-        task.completed ? task.completed = false : task.completed = true;    
-    }
-    )
+        !task.completed ? task.completed = true : task.completed = true;    
+    })
     addDataToLocalStorage(arrayOfTasks);
     
 })
@@ -62,7 +81,6 @@ function addTasksToarray(taskText){
 function addDataToLocalStorage(arrayOfTasks){
     window.localStorage.setItem('tasks',JSON.stringify(arrayOfTasks));
     addElementsToPage(arrayOfTasks);
-    // console.log(window.localStorage.getItem('tasks'));
 }
 function addElementsToPage(arrayOfTasks){
     tasks.innerHTML = '';
@@ -83,21 +101,16 @@ function addElementsToPage(arrayOfTasks){
         text.innerHTML = task.title;
         div.appendChild(text);
         if(task.completed){
-            text.className += ' completed';
             check.innerHTML = '&check;';
+            check.classList.add('checked');
         }
         // delete button
         let deleteButton = document.createElement('button');
         deleteButton.className = 'del';
         deleteButton.innerHTML = '&times;';
         div.appendChild(deleteButton);
-        tasks.appendChild(div);
-        div.addEventListener('dblclick',function(e){
-            if(e.target.classList.contains('text')){
-                e.target.contentEditable = true;
-                e.target.focus();
-            }
-        })
+        tasks.prepend(div);
+ 
     });
 
 }
@@ -121,7 +134,7 @@ function completeTask(id){
 }
 let activeFilter = [];
 let completedFilter = [];
-// let allFilter = arrayOfTasks;
+
 //filter
 let footerTodo = document.querySelector('.footer');
 

@@ -6,23 +6,24 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #f3f3f3;
 }
 main{
-    padding-block: 0.8em;
     width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f3f3f3;
     border-radius: 0.2rem;
     -webkit-border-radius: 0.2rem;
     -moz-border-radius: 0.2rem;
     -ms-border-radius: 0.2rem;
     -o-border-radius: 0.2rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
 }
 .todo-list{
-    width:100%
+    width:100%;
 }
 .item{
     width:100%;
@@ -33,9 +34,17 @@ main{
     max-height: 3.55em;
 
 }
+.unshown{
+    display: none;
+    z-index: -1;
+}
 .item .text{
     flex-grow: 2;
     padding-inline-start: 1rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
 }
 .item button{
     width:1.5rem;
@@ -82,13 +91,13 @@ main{
 .toDO-input{
     flex-grow: 2;
     padding: 1rem;
-    background-color: #f3f3f3;
+    background-color: #fff;
     border: none;
 
 }
 .checkAll{
     flex-grow: 0.3;
-    background-color: #f3f3f3;
+    background-color: #fff;
     position: relative;
     cursor: pointer;
 }
@@ -114,6 +123,30 @@ button{
     padding-block:0.7rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    position: relative;
+
+}
+.footer::after{
+    content: '';
+    position: absolute;
+    width: 95%;
+    left: 0.7rem;
+    height: 2rem;
+    background-color: white;
+    z-index: -1000;
+    bottom: -0.3rem;
+    box-shadow: 0 0 0.2rem #777;
+}
+.footer::before{
+    content: '';
+    left: 1.4rem;
+    position: absolute;
+    width: 90%;
+    height: 2rem;
+    background-color: white;
+    z-index: -1000;
+    bottom: -0.6rem;
+    box-shadow: 0 0 0.2rem #777;
 }
 @media (max-width:59.0625em) {
     .footer{
@@ -121,10 +154,15 @@ button{
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .counter,.all,.active,.completed,.clear{
+    .counter,
+    .all,
+    .active,
+    .completed,
+    .clear{
         width: calc(100% / 3);
     }
-    .completed,.clear{
+    .completed,
+    .clear{
         width: calc(100% / 2);
         margin-top: 1em;
     }
@@ -149,7 +187,6 @@ button{
 .completed{
     grid-column: 4/5;
     border: none;
-
     background-color: transparent;
 }
 .clear{

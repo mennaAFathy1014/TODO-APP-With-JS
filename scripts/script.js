@@ -21,25 +21,33 @@ tasks.addEventListener('click',(e)=>{
         let id = e.target.parentElement.getAttribute('data-id');
         completeTask(id);
     }
+    tasks.addEventListener('click',(e)=>{
+        editText(e.target.parentElement.getAttribute('data-id'),e.target.parentElement.querySelector('.text'));
+        // 
+    })
    
-})
-tasks.addEventListener('dblclick',(e)=>{
-    if(e.target.classList.contains('text')){
-        editText(e.target.parentElement.getAttribute('data-id'),
-        e.target.parentElement.querySelector('.text'));
-    }
 })
 function editText(id,parent){
     arrayOfTasks.forEach((task)=>{
         if(task.id == id){
-            parent.contentEditable = true;
-            parent.innerHTML ='';
-            parent.focus();
-            parent.addEventListener('blur',()=>{
-            task.title = parent.innerHTML;
-            addDataToLocalStorage(arrayOfTasks);
-            });
-            
+            let itemParent = parent.parentElement;
+            // 
+            if(!itemParent.querySelector('span').classList.contains('unshown')){
+                itemParent.querySelector('span').classList.add('unshown');
+                itemParent.querySelector('input').classList.remove('unshown');
+                itemParent.querySelector('input').focus();
+                itemParent.querySelector('input').value = task.title;
+                itemParent.querySelector('input').addEventListener('keydown',(e)=>{
+                    if(e.keyCode == 13){
+                        task.title = e.target.value;
+                        addDataToLocalStorage(arrayOfTasks);
+                    }
+                })
+            }
+            else{
+                itemParent.querySelector('input').classList.add('unshown');
+                itemParent.querySelector('span').classList.remove('unshown');
+            }           
         }
     })
 }
@@ -54,11 +62,26 @@ input.addEventListener('keydown',function(e){
     }
 })
 
-checkAll.addEventListener('click',function(){
-    arrayOfTasks.forEach((task)=>{
-        !task.completed ? task.completed = true : task.completed = true;    
-    })
-    addDataToLocalStorage(arrayOfTasks);
+///check all
+const header = document.querySelector('.header');
+header.addEventListener('click',function(e){
+    if(e.target.classList.contains('checkAll')){
+        tasks.querySelectorAll('.check').forEach((check)=>{
+            check.classList.toggle('checked');
+            if(check.classList.contains('checked')){
+                arrayOfTasks.forEach((task)=>{
+                    task.completed = true;
+                })
+            }
+            else{
+                arrayOfTasks.forEach((task)=>{
+                    task.completed = false;
+                }
+                )
+            }  
+        })
+        addDataToLocalStorage(arrayOfTasks);
+    }
     
 })
 
@@ -95,11 +118,21 @@ function addElementsToPage(arrayOfTasks){
         check.className = 'check';
         div.appendChild(check);
 
+        //add text input
+        let textinput = document.createElement('input');
+        // textinput.setAttribute('disabled','true');
+        textinput.className = 'text';
+        textinput.innerText = task.title;
+        textinput.classList.add('unshown');
         //add text
         let text = document.createElement('span');
         text.className = 'text';
         text.innerHTML = task.title;
+
+        // text.innerText = task.title;
         div.appendChild(text);
+        div.appendChild(textinput);
+        //div.appendChild(textinput);
         if(task.completed){
             check.innerHTML = '&check;';
             check.classList.add('checked');
@@ -151,8 +184,12 @@ footerTodo.addEventListener('click',function(e){
         addElementsToPage(completedFilter);
     }
 })
+
+
 let counter = document.querySelector('.counter');
 let clearAll = document.querySelector('.clear');
+
+
 clearAll.addEventListener('click',function(){
     arrayOfTasks = arrayOfTasks.filter((task)=>!task.completed);
     addDataToLocalStorage(arrayOfTasks);
@@ -160,6 +197,6 @@ clearAll.addEventListener('click',function(){
 })
 function countTasks(arrayOfTasks){
     let count = arrayOfTasks.length;
-    counter.innerHTML = `${count} items left`;
+    counter.innerText = `${count} items left`;
 }
 countTasks(arrayOfTasks);

@@ -108,9 +108,9 @@ todoList.addEventListener('click',function(e){
         deleteTask(e.target.parentElement);
     }
     if(e.target.classList.contains('text')){
-        e.target.addEventListener('click',function(){
+        e.target.ondblclick = function(){
             editTask(e.target.parentElement.querySelector('.text'),e.target);
-        })
+        }
     }
     countTasks();
 })
@@ -129,7 +129,6 @@ function editTask(parent,task){
             itemInput.classList.add('unshown');
             itemSpan.classList.remove('unshown');
             itemInput.innerHTML = itemInput.value;
-            itemInput.removeEventListener('keydown',function(){});
             setToLocalStorage(itemParent);
         }
     })

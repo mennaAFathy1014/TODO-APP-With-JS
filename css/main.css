@@ -9,7 +9,7 @@ body{
     background-color: #f3f3f3;
 }
 main{
-    width: 80%;
+    width: 50em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,6 +21,16 @@ main{
     -o-border-radius: 0.2rem;
     border: 1px solid #ccc;
     background-color: #fff;
+}
+@media (max-width: 49.125em){
+    main{
+        width: 25em;
+    }
+}
+@media (max-width: 24.875em){
+    main{
+        width: 18em;
+    }
 }
 .todo-list{
     width:100%;
@@ -80,8 +90,7 @@ main{
     border: yellowgreen solid 0.01rem;
 }
 :focus {
-    border: 0.01em solid #777;
-    outline:none;
+    outline:.02em solid rgb(98, 95, 95);
 }
 .header{
     width: 100%;
@@ -114,6 +123,11 @@ main{
     -moz-transform: rotateZ(90deg);
     -ms-transform: rotateZ(90deg);
     -o-transform: rotateZ(90deg);
+}
+@media (max-width: 48em){
+    .checkAll::before{
+        font-size: 1.5rem;
+    }
 }
 button{
     cursor: pointer;
@@ -197,4 +211,13 @@ button{
 }
 .footer button:hover a{
     border-color: rgb(128, 24, 24);
+}
+.completed-text{
+    color: #e0e0e0;
+    text-decoration: line-through;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
 }

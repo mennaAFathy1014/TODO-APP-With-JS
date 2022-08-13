@@ -2,13 +2,31 @@ const todoList = document.querySelector('.todo-list');
 const checkAll = document.querySelector('.checkAll');
 const input = document.querySelector('.toDO-input');
 const footer = document.querySelector('.footer');
-const enterKey =13;
-let completedFilter =[];
 let arrayOfTasks = [];
 let counterTasks = document.querySelector(".counter");
+
+const enterKey =13;
+//counter
+// arrays
+const arrayAll = arrayOfTasks.length;
+const arrayActive = arrayOfTasks.filter((task)=>task.completed).length;
+const arrayCompleted = arrayOfTasks.filter((task)=>!task.completed).length;
+//counter
+// function setCounter(arrlength){
+//     counterTasks.innerText = `${arrlength} items left`;
+// }
+// setCounter(arrayOfTasks.length);
+////
 if(localStorage.getItem('tasks')){
     arrayOfTasks = JSON.parse(localStorage.getItem('tasks'));
     addElementsToPage(arrayOfTasks);
+    let count = 0 ;
+    arrayOfTasks.forEach((task)=>{
+        if(task.completed){
+            count++;
+        }
+    })
+    // setCounter(count);
 }
 function addElementsToPage(arrayOfTasks){
     todoList.innerHTML = '';
@@ -39,8 +57,6 @@ function addElementsToPage(arrayOfTasks){
         div.appendChild(deleteButton);
         todoList.prepend(div);
     })
-    completedFilter = arrayOfTasks.filter((task)=> task.completed);
-    countTasks();
 } 
 input.addEventListener('keydown',function(e){
     if(e.keyCode === enterKey && input.value !==''){
@@ -94,7 +110,6 @@ function addTaskTopage(task){
     deleteButton.innerHTML = '&times;';
     div.appendChild(deleteButton);
     todoList.prepend(div);
-    countTasks();
 }
 function addTasksToLocalStorage(arrayOfTasks){
     localStorage.setItem('tasks',JSON.stringify(arrayOfTasks));
@@ -112,7 +127,6 @@ todoList.addEventListener('click',function(e){
             editTask(e.target.parentElement.querySelector('.text'),e.target);
         }
     }
-    countTasks();
 })
 //edit task
 function editTask(parent,task){
@@ -173,9 +187,11 @@ function completeTask(task){
             }
         })
     }
+    arrayCompletedTasks = arrayOfTasks.filter((task)=>{
+        return task.completed;
+    })
+    // setCounter(arrayOfTasks.length - arrayCompletedTasks.length);
     addTasksToLocalStorage(arrayOfTasks);
-    completedFilter = arrayOfTasks.filter((task)=> task.completed);
-    countTasks();
 }
 //delete task
 function deleteTask(task){
@@ -183,24 +199,22 @@ function deleteTask(task){
     task.remove();
     arrayOfTasks = arrayOfTasks.filter((task)=>task.id != id);
     addTasksToLocalStorage(arrayOfTasks);
-    completedFilter = arrayOfTasks.filter((task)=> task.completed);
-    countTasks();
-}
-countTasks();
-function countTasks(){
-    let count = completedFilter.length;
-    let active = arrayOfTasks.length - count;
-    counterTasks.innerText = `${active} items left`;
 }
 footer.addEventListener('click',function(e){
     if(e.target.classList.contains('completed')){
-        addElementsToPage(completedFilter);
+        arrayCompletedTasks = arrayOfTasks.filter((task)=>{
+            return task.completed;
+        })
+        console.log(arrayCompletedTasks);
+        showCompletedTasks(arrayCompletedTasks);
+        addTasksToLocalStorage(arrayOfTasks);
     }
     if(e.target.classList.contains('all')){
         addElementsToPage(arrayOfTasks);
     }
     if(e.target.classList.contains('active')){
-        addElementsToPage(arrayOfTasks.filter((task)=> !task.completed));
+        const activeTasks = arrayOfTasks.filter((task)=>!task.completed);
+        addElementsToPage(activeTasks);
     }
     if(e.target.classList.contains('clear')){
         arrayOfTasks = arrayOfTasks.filter((task)=> !task.completed);
@@ -208,6 +222,10 @@ footer.addEventListener('click',function(e){
         addTasksToLocalStorage(arrayOfTasks);
     }
 })
+//show completed tasks
+function showCompletedTasks(arrayCompletedTasks){
+    addElementsToPage(arrayCompletedTasks);
+}
 checkAll.addEventListener('click',function(e){
     todoList.querySelectorAll('.check').forEach((check)=>{
         if(!check.classList.contains('checked')){

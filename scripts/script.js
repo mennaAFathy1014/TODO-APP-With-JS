@@ -248,4 +248,6 @@ function setCounter(count){
         counter.innerHTML = `${count} items left`;
     }
 };
-setCounter();
+let completed = arrayOfTasks.filter((task)=>task.completed);
+setCounter(arrayOfTasks.length - completed.length);
+// setCounter();

@@ -250,4 +250,3 @@ function setCounter(count){
 };
 let completed = arrayOfTasks.filter((task)=>task.completed);
 setCounter(arrayOfTasks.length - completed.length);
-// setCounter();

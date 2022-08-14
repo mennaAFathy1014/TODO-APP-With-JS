@@ -237,6 +237,7 @@ checkAll.addEventListener('click',function(){
         addElementsToPage(arrayOfTasks);
         addTasksToLocalStorage(arrayOfTasks);
     }
+    arrayOfCheckedTasks = arrayOfTasks.filter((task)=>!task.completed);
     setCounter(arrayOfTasks.length - arrayOfCheckedTasks.length);
 });
 function setCounter(count){

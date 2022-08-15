@@ -132,19 +132,22 @@ function editTask(parent,task){
     itemInput.focus();
     itemInput.addEventListener('keydown',function(e){
         if(e.keyCode === enterKey){
-            
-            itemSpan.innerText = itemInput.value;
+            if(itemInput.value !== ''){
+                itemSpan.innerText = itemInput.value;
+                itemInput.innerHTML = itemInput.value;
+            }
             itemInput.classList.add('unshown');
             itemSpan.classList.remove('unshown');
-            itemInput.innerHTML = itemInput.value;
             setToLocalStorage(itemParent);
         }
     })
     itemInput.addEventListener('blur',function(){
-        itemSpan.innerText = itemInput.value;
+        if(itemInput.value !== ''){
+            itemSpan.innerText = itemInput.value;
+            itemInput.innerHTML = itemInput.value;
+        }
         itemInput.classList.add('unshown');
         itemSpan.classList.remove('unshown');
-        itemInput.innerHTML = itemInput.value;
         setToLocalStorage(itemParent);
     })
     itemSpan.classList.add('unshown');
@@ -239,7 +242,7 @@ checkAll.addEventListener('click',function(){
         addTasksToLocalStorage(arrayOfTasks);
     }
     arrayOfCheckedTasks = arrayOfTasks.filter((task)=>!task.completed);
-    console.log(arrayOfCheckedTasks);
+    
     setCounter(arrayOfCheckedTasks.length);
 });
 function setCounter(count){

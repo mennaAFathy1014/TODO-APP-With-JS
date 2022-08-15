@@ -184,7 +184,8 @@ function completeTask(task){
     arrayCompletedTasks = arrayOfTasks.filter((task)=>{
         return task.completed;
     })
-    setCounter(arrayOfTasks.length - arrayCompletedTasks.length);
+    let arrayOfUncompleted = arrayOfTasks.filter((task)=>!task.completed)
+    setCounter(arrayOfUncompleted.length);
     addTasksToLocalStorage(arrayOfTasks);
 }
 //delete task
@@ -238,7 +239,8 @@ checkAll.addEventListener('click',function(){
         addTasksToLocalStorage(arrayOfTasks);
     }
     arrayOfCheckedTasks = arrayOfTasks.filter((task)=>!task.completed);
-    setCounter(arrayOfTasks.length - arrayOfCheckedTasks.length);
+    console.log(arrayOfCheckedTasks);
+    setCounter(arrayOfCheckedTasks.length);
 });
 function setCounter(count){
     if(count > 0){
